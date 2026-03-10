@@ -39,3 +39,5 @@ El repositorio cuenta con reglas de protección en la rama `main`. Para contribu
    git add .
    git commit -m "feat: descripción clara del cambio"
    git push origin <nombre-de-la-rama>
+5. Ir a GitHub y crear un Pull Request hacia la rama main.
+6. Esperar la revisión y aprobación del administrador del repositorio para la integración final.
