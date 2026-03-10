@@ -19,7 +19,7 @@ Durante el ciclo de vida de este desarrollo, se pondrán en práctica y se evalu
 * **Control de Versiones:** Git y GitHub.
 
 ## 📂 Arquitectura de Ramas y Estructura del Repositorio
-Para mantener el orden y facilitar el trabajo colaborativo sin conflictos, el proyecto está dividido en ramas de trabajo específicas. Cada equipo o colaborador debe trabajar **exclusivamente** en su rama designada:
+### 🌿 Arquitectura de Ramas (GitFlow)
 
 * 🌿 **`main`**: Rama principal (Protegida). Solo el administrador puede integrar código aquí mediante Pull Requests aprobados. Contiene la versión estable de producción.
 * 🌿 **`backend`**: Desarrollo de la API, orquestación del chatbot y procesos ETL
@@ -32,12 +32,14 @@ Para mantener el orden y facilitar el trabajo colaborativo sin conflictos, el pr
 El repositorio cuenta con reglas de protección en la rama `main`. Para contribuir al proyecto, los colaboradores deben seguir este flujo exacto:
 
 1. Clonar el repositorio: `git clone <url-del-repositorio>`
-2. Cambiar a la rama asignada (ejemplo, para trabajar en la interfaz): `git checkout frontend`
-3. Trabajar únicamente en los archivos correspondientes a su área para evitar conflictos.
+2. Actualizar y posicionarse en la rama base de trabajo: `git checkout develop`
+3. Crear una rama de trabajo desde `develop` (ejemplo): `git checkout -b feature/<nombre>`
 4. Guardar y subir los cambios a la rama en la nube:
    ```bash
    git add .
    git commit -m "feat: descripción clara del cambio"
    git push origin <nombre-de-la-rama>
-5. Ir a GitHub y crear un Pull Request hacia la rama main.
+5. Ir a GitHub y crear un Pull Request hacia la rama `develop` (para ramas `feature/*`).
 6. Esperar la revisión y aprobación del administrador del repositorio para la integración final.
+
+> Nota: Las ramas `release/*` y `hotfix/*` se integran a `main` y luego se sincronizan también con `develop`.
