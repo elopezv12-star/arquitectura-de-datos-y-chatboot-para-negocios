@@ -19,25 +19,61 @@ Durante el ciclo de vida de este desarrollo, se pondrán en práctica y se evalu
 * **Control de Versiones:** Git y GitHub.
 
 ## 📂 Arquitectura de Ramas y Estructura del Repositorio
-Para mantener el orden y facilitar el trabajo colaborativo sin conflictos, el proyecto está dividido en ramas de trabajo específicas. Cada equipo o colaborador debe trabajar **exclusivamente** en su rama designada:
+### 🌿 Arquitectura de Ramas (GitFlow)
 
-* 🌿 **`main`**: Rama principal (Protegida). Solo el administrador puede integrar código aquí mediante Pull Requests aprobados. Contiene la versión estable de producción.
-* 🌿 **`backend`**: Desarrollo de la API, orquestación del chatbot y procesos ETL
-* 🌿 **`database`**: Scripts SQL, esquemas, configuración de PostgreSQL y migraciones.
-* 🌿 **`frontend`**: Desarrollo de la interfaz de usuario con Tailwind, HTML y JS.
-* 🌿 **`documentation`**: Manuales, diagramas de arquitectura, diccionario de datos y requerimientos.
-* 🌿 **`test`**: Entorno seguro para realizar pruebas de integración entre los diferentes módulos antes de pasar a `main`.
+Para mantener el orden y facilitar el trabajo colaborativo sin conflictos, utilizaremos el modelo **GitFlow**, basado en ramas `main`, `develop`, `feature/*`, `release/*` y `hotfix/*`.
+
+* 🌿 **`main`**: Rama principal (protegida). Contiene la versión estable de producción. Solo se integra código aquí mediante Pull Requests aprobados.
+* 🌿 **`develop`**: Rama de integración. Aquí se consolidan los cambios antes de preparar una entrega hacia `main`.
+* 🌿 **`feature/<nombre>`**: Rama por funcionalidad o tarea. Nace desde `develop` y se integra nuevamente a `develop` mediante Pull Request.
+* 🌿 **`release/<version>`**: Rama de preparación de entrega. Nace desde `develop` para estabilizar cambios (ajustes finales, documentación, versionado) y luego se integra a `main`. Posteriormente se sincroniza también con `develop`.
+* 🌿 **`hotfix/<nombre>`**: Rama para correcciones urgentes. Nace desde `main` y se integra a `main`. Posteriormente se sincroniza también con `develop`.
+
+### 🧱 Estructura del Repositorio
+
+Propuesta de estructura clara y escalable para un proyecto en Python, separando responsabilidades (configuración, base de datos, ETL, API y lógica de negocio):
+
+```text
+.
+├── README.md
+├── pyproject.toml
+├── .gitignore
+├── .env.example
+├── docs/
+│   ├── adr/
+│   └── diagrams/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── scripts/
+├── tests/
+└── src/
+    └── chatbot_business/
+        ├── __init__.py
+        ├── config/
+        ├── db/
+        ├── etl/
+        ├── services/
+        ├── api/
+        ├── llm/
+        ├── utils/
+        └── cli.py
+```
+
+> Nota: El nombre `chatbot_business/` es un ejemplo; se recomienda ajustarlo al nombre real del proyecto (sin espacios y en snake_case).
 
 ## 🔄 Flujo de Trabajo Colaborativo
 El repositorio cuenta con reglas de protección en la rama `main`. Para contribuir al proyecto, los colaboradores deben seguir este flujo exacto:
 
 1. Clonar el repositorio: `git clone <url-del-repositorio>`
-2. Cambiar a la rama asignada (ejemplo, para trabajar en la interfaz): `git checkout frontend`
-3. Trabajar únicamente en los archivos correspondientes a su área para evitar conflictos.
+2. Actualizar y posicionarse en la rama base de trabajo: `git checkout develop`
+3. Crear una rama de trabajo desde `develop` (ejemplo): `git checkout -b feature/<nombre>`
 4. Guardar y subir los cambios a la rama en la nube:
    ```bash
    git add .
    git commit -m "feat: descripción clara del cambio"
    git push origin <nombre-de-la-rama>
-5. Ir a GitHub y crear un Pull Request hacia la rama main.
+5. Ir a GitHub y crear un Pull Request hacia la rama `develop` (para ramas `feature/*`).
 6. Esperar la revisión y aprobación del administrador del repositorio para la integración final.
+
+> Nota: Las ramas `release/*` y `hotfix/*` se integran a `main` y luego se sincronizan también con `develop`.
